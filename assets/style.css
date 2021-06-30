@@ -1,0 +1,84 @@
+body {
+    margin:0;
+}
+nav {
+    display: flex;
+    background: radial-gradient(
+        circle,
+        rgb(103, 132, 230) 0%,
+        rgba(31, 56, 192, 0.954) 100%
+      );
+  justify-content: center;
+    height: 85px;
+    align-items: center;
+}
+nav p {
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+}
+aside {
+   float: left;
+   border-bottom: 2px solid black;
+    margin: 15px;
+   
+}
+aside form {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+   
+}
+
+label {
+    font-size: 45px;
+    font-weight: bold;
+}
+
+input {
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+
+form button {
+    font-size: 18px;
+    background-color: rgb(72, 115, 207);
+    color: white;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+#container {
+   float: right;
+   width: 75%;
+   margin: 20px;
+}
+
+#currentDay {
+    border: 2px solid black;
+    height: 350px;
+}
+
+#forecast {
+ 
+}
+#forecast p {
+    font-size: 35px;
+    font-weight: bold;
+}
+#fiveDayForecast {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    
+    height: 200px;
+    
+}
+
+#fiveDayForecast div {
+    background-color: rgb(16, 16, 94);
+    height:300px;
+    width: 200px;
+}
