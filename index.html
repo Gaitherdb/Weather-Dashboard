@@ -13,10 +13,11 @@
         <p>Weather Dashboard</p>
     </nav>
     <aside>
-        <form action="/action_page.php">
-            <label for="city">Search for a city:</label><br>
-            <input type="text" id="city" name="city" placeholder="Richmond"><br>
+        <form id="search-form">
+            <label for="input-city">Search for a city:</label><br>
+            <input type="text" id="input-city" name="input-city" placeholder="Richmond"><br>
             <button>Search</button>
+        </form>
     </aside>
     <div id="container">
         <section id="currentDay">
@@ -26,11 +27,12 @@
         <section id="forecast">
             <p>5-Day Forecast:</p>
             <div id="fiveDayForecast">
-               
+
             </div>
-            
+
         </section>
     </div>
+    <script src="./assets/script.js"></script>
 </body>
 
 </html>
