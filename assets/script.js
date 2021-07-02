@@ -29,8 +29,8 @@ function searchApiCurrentDay(city) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    // renderWeather(data, city);
-                    console.log(data);
+                    renderWeather(data);
+                    
                 })
              } else {
                     alert('Error: ' + response.statusText)
@@ -39,12 +39,25 @@ function searchApiCurrentDay(city) {
         .catch(function (error) {
             alert('Unable to connect to OpenWeatherMap');
         })
+        
 }
 // function setLocalStorage() {
 
 // }
-// function renderWeather(data, city) {
+function getLocalDate(data) {
+    var localDate = new Date((new Date().getTime())+data.timezone*1000).toUTCString();
+    var date = localDate.split(' ');
+    date.splice(-2);
+    return date;
+}
 
-// }
+function renderWeather(data) {
+console.log(data);
+var currentDate = getLocalDate(data);
+console.log(currentDate);
+
+
+
+}
 searchFormEl.addEventListener('submit', handleSearchFormSubmit);
 
