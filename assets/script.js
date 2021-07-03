@@ -29,35 +29,65 @@ function searchApiCurrentDay(city) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    renderWeather(data);
-                    
+                    renderCurrentWeather(data);
+
                 })
-             } else {
-                    alert('Error: ' + response.statusText)
-                }
-            })
-        .catch(function (error) {
-            alert('Unable to connect to OpenWeatherMap');
+            } else {
+                alert('Error: ' + response.statusText)
+            }
         })
-        
+        .catch(function (error) {
+            alert('Unable to connect to OpenWeatherMap.com');
+        })
+
+}
+
+function searchApi5DayForecast(data) {
+   var queryURL = " https://api.openweathermap.org/data/2.5/onecall?lat=" + data.coord.lat + "&lon=" + data.coord.lon + "&appid=" + APIKey;
+   console.log(queryURL);
 }
 // function setLocalStorage() {
 
 // }
 function getLocalDate(data) {
-    var localDate = new Date((new Date().getTime())+data.timezone*1000).toUTCString();
+    //gets local time, converts it into miliseconds and adds the product of seconds shifted from UTC and 1000 and converts it to UTC.
+    var localDate = new Date((new Date().getTime()) + data.timezone * 1000).toUTCString();
+    console.log(localDate);
     var date = localDate.split(' ');
     date.splice(-2);
     return date;
 }
 
-function renderWeather(data) {
-console.log(data);
-var currentDate = getLocalDate(data);
-console.log(currentDate);
+function convertTemp(K) {
+    return (9 / 5) * (K - 273) + 32;
+}
+function getIcons(icon) {
 
+    var iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
+    return iconurl;
+    
+    {/* <div id="icon"><img id="wicon" src="" alt="Weather icon"></div> */ }
+}
+function MStoMPH(ms) {
+	return ms * 2.236936;
+}
+
+function renderCurrentWeather(data) {
+    console.log(data);
+    var currentDate = getLocalDate(data);
+    var temp = convertTemp(data.main.temp).toFixed(2);
+    console.log(temp);
+    var humidity = data.main.humidity;
+    var icon = getIcons(data.weather[0].icon)
+    var wind = MStoMPH(data.wind.speed).toFixed(2);
+
+
+searchApi5DayForecast(data);
 
 
 }
+
 searchFormEl.addEventListener('submit', handleSearchFormSubmit);
+
+
 
