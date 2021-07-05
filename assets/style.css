@@ -59,6 +59,8 @@ form button {
 #currentDay {
     border: 2px solid black;
     height: 350px;
+    /* display: flex;
+    flex-direction: column; */
 }
 
 /* #forecast {
@@ -81,4 +83,5 @@ form button {
     background-color: rgb(16, 16, 94);
     height:300px;
     width: 200px;
+    color: white;
 }
