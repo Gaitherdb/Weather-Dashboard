@@ -7,17 +7,19 @@ var SH = document.querySelector('#searchHistory');
 const APIKey = "92421b7f2bf12b73f6e7c38295c935c0";
 var DateTime = luxon.DateTime;
 var cities = [];
-
+//pulls search history buttons up
 renderLocalStorage();
 
 SH.addEventListener("click", function (event) {
     var element = event.target;
     //if you click a saved search history btn
     if (element.matches(".cityBtn")) {
+        //then run function to get data and rener results
         searchSavedCity(element.textContent);
         console.log(element.textContent);
     }
 })
+//fetches info for previously searched city without adding a new button
 function searchSavedCity(city) {
     fiveDayForecast.textContent = '';
     searchInputVal.value = '';
@@ -37,8 +39,8 @@ function searchSavedCity(city) {
         .catch(function (error) {
             alert('Unable to connect to OpenWeatherMap.com');
         })
-
 }
+//takes input and clears old data. calls function to search for new data
 function handleSearchFormSubmit(event) {
     event.preventDefault();
     var city = searchInputVal.value.trim();
@@ -54,7 +56,7 @@ function handleSearchFormSubmit(event) {
         searchApiCurrentDay(city);
     }
 }
-
+//gets data for current day and calls functions to store + render info
 function searchApiCurrentDay(city) {
 
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
@@ -70,28 +72,29 @@ function searchApiCurrentDay(city) {
                 alert('Error: ' + response.statusText)
             }
         })
-        .catch(function (error) {
-            alert('Unable to connect to OpenWeatherMap.com');
-        })
+        // .catch(function (error) {
+        //     alert('Unable to connect to OpenWeatherMap.com');
+        // })
 
 }
 function addLocalStorage(name) {
+    //retrieve array of saved searches
     localStorage.getItem("searchHistory");
-    //adds the city to the array of saved searches
+    //adds new city to the array of saved searches
     cities.push(name);
-    //limits the saved search to 6 buttons
+    //limits the saved search to 8 buttons
     var searchHistoryCap = document.querySelectorAll(".citybtn");
-    if (searchHistoryCap.length > 5) {
+    if (searchHistoryCap.length > 7) {
         cities.splice(0, 1);
     }
     var searchHistory = document.createElement("button");
     searchHistory.classList.add("citybtn");
-    // searchHistory.setAttribute("data-name", name);
     searchHistory.textContent = name;
     SH.appendChild(searchHistory);
-    //saves array of 6 cities to local storage
+    //saves array of 8 cities to local storage
     localStorage.setItem("searchHistory", JSON.stringify(cities));
 }
+//renders buttons based on previous searches when you open the page
 function renderLocalStorage() {
     var savedHistory = localStorage.getItem("searchHistory");
     if (savedHistory) {
@@ -99,14 +102,13 @@ function renderLocalStorage() {
         for (i = 0; i < cities.length; i++) {
             var searchHistory = document.createElement("button");
             searchHistory.classList.add("citybtn");
-            // searchHistory.setAttribute("data-name", cities[i]);
             searchHistory.textContent = cities[i];
             SH.appendChild(searchHistory);
         }
 
     }
 }
-
+//organizes the data into variables and renders current day data
 function renderCurrentWeather(data) {
     console.log(data);
 
@@ -142,21 +144,22 @@ function renderCurrentWeather(data) {
     ul.appendChild(tempList);
     ul.appendChild(windList);
     ul.appendChild(humidityList);
-
+//send data to 5 day api function
     searchApi5DayForecast(data);
 }
-
+//uses luxon to organize date
 function getLocalDate(data) {
     var local = DateTime.local();
     var rezoned = local.setZone(data.timezone);
     var format = rezoned.toFormat("'('M'/'d'/'y')'");
     dateHeader.textContent = format;
 }
-
+//creates a link with an edit depending on icon data
 function getIcons(icon) {
     var iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
     return iconurl;
 }
+
 function convertTemp(K) {
     return (9 / 5) * (K - 273) + 32;
 }
@@ -184,7 +187,7 @@ function searchApi5DayForecast(currentData) {
             alert('Unable to connect to OpenWeatherMap.com');
         })
 }
-
+//get uv data from 5 day api and changes color class based on result
 function getUVI(data) {
     var currentUVI = data.current.uvi;
     var uviList = document.createElement("li");

@@ -19,9 +19,7 @@ nav p {
 }
 aside {
    float: left;
-   
     margin: 15px;
-   
 }
 #searchHistory{
     display: flex;
@@ -32,8 +30,6 @@ aside form {
     flex-direction: column;
     justify-content: space-between;
     border-bottom: 2px solid black;
-  
-   
 }
 
 label {
@@ -64,13 +60,8 @@ form button {
 #currentDay {
     border: 2px solid black;
     height: 350px;
-    /* display: flex;
-    flex-direction: column; */
 }
 
-/* #forecast {
- 
-} */
 #forecast p {
     font-size: 35px;
     font-weight: bold;
@@ -101,9 +92,13 @@ ul {
 .dailyDate{
     font-size:27px;
     margin-left: 3px;
+    margin-bottom: 3px;
+}
+.dailyDiv ul {
+    margin:0;
 }
 .dailyDiv li {
-    margin: 25px 3px;
+    margin: 22px 3px;
     font-size: 22px;
 }
 .currentDayHeader {
@@ -142,4 +137,104 @@ ul {
 }
 .cityBtn{
    margin: 10px 0;
+   padding: 10px;
+   background-color: rgba(202, 202, 202, 0.788);
+   font-weight: bold;
+   font-size: 17px;
+   cursor: pointer;
+}
+@media screen and (min-width: 1334px) and (max-width: 1600px) {
+    #container {
+        width: 70%;
+        
+    }
+    #fiveDayForecast div {
+        width: 19%;
+    }
+}
+
+@media screen and  (min-width: 975px) and (max-width: 1333px) {
+    #container {
+        width: 67%;
+    }
+    #fiveDayForecast div {
+        width: 19%;   
+    }
+    aside {
+        width:25%;
+    }
+    label {
+        font-size: 30px;
+    }
+    .dailyDiv li {
+        font-size: 18px;
+    }
+}
+
+@media screen and  (min-width: 541px) and (max-width: 974px) {
+    #container {
+        width: 66%;
+        margin: .5%;
+    }
+    #fiveDayForecast div {
+        width: 19%;   
+    }
+    aside {
+        width:25%;
+        margin-left: 3%;
+    }
+    label {
+        font-size: 30px;
+    }
+    .dailyDiv li {
+        font-size: 80%;
+    }
+    .dailyDate {
+        font-size: 100%;
+    }
+}
+@media screen and  (min-width: 360px) and (max-width: 540px) {
+    #container {
+        width: 62%;
+        margin: 1% 2%;
+    }
+    #fiveDayForecast div {
+        width: 19%;   
+    }
+    aside {
+        width:25%;
+        margin-left: 4%;
+    }
+    label {
+        font-size: 20px;
+    }
+    .dailyDiv li {
+        font-size: 65%;
+    }
+    input {
+        font-size:15px;
+    }
+    .cityBtn {
+        font-size: 12px;
+    }
+    .currentDayHeader {
+        font-size: 18px;
+    }
+    .todayList li {
+        font-size: 20px;
+    }
+    #currentDay {
+        height: 300px;
+    }
+    #forecast p {
+        font-size: 32px;
+        margin: 1%;
+    }
+    .dailyDate {
+        font-size:60%;
+    }
+    nav p {
+        font-size:38px;
+    }
+    
 }
