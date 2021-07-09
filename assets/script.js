@@ -2,13 +2,15 @@ var searchFormEl = document.querySelector('#search-form');
 var searchInputVal = document.querySelector('#input-city');
 var currentWeather = document.querySelector('#currentWeather');
 var fiveDayForecast = document.querySelector('#fiveDayForecast');
+
 const APIKey = "92421b7f2bf12b73f6e7c38295c935c0";
+var DateTime = luxon.DateTime;
 
 
 function handleSearchFormSubmit(event) {
     event.preventDefault();
     var city = searchInputVal.value.trim();
-   
+
     if (!city) {
         alert('You need a search input value!');
         return;
@@ -28,8 +30,9 @@ function searchApiCurrentDay(city) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
+                    // setLocalStorage(data.name);
                     renderCurrentWeather(data);
-
+                    localStorage.setItem("recentSearch", data.name);
                 })
             } else {
                 alert('Error: ' + response.statusText)
@@ -40,26 +43,51 @@ function searchApiCurrentDay(city) {
         })
 
 }
+// function setLocalStorage(name) {
+//     localStorage.getItem(searchHistory);
+//     var cities = [];
+//     // cities.push(name);
+//     cities[cities.length] = name;
+//     localStorage.setItem("searchHistory", JSON.stringify(cities));
+//     console.log(cities);
+//     console.log(name);
+// }
+// function getLocalStorage() {
+
+// }
+
 
 function renderCurrentWeather(data) {
     console.log(data);
 
-    var currentDate = getLocalDate(data);
     var icon = getIcons(data.weather[0].icon);
     var temp = convertTemp(data.main.temp).toFixed(2);
     var wind = MStoMPH(data.wind.speed).toFixed(2);
     var humidity = data.main.humidity;
+
+    var div = document.createElement("div");
+    div.id = "header";
     var h1 = document.createElement("h1");
+    h1.classList.add("currentDayHeader");
+    dateHeader = document.createElement("h1");
+    dateHeader.classList.add("currentDayHeader");
+    var img = document.createElement("img");
+    img.classList.add("currentDayHeader");
+    img.src = icon;
+    img.alt = "Weather Icon";
     var ul = document.createElement("ul");
     ul.classList.add("todayList");
     var tempList = document.createElement("li");
     var windList = document.createElement("li");
     var humidityList = document.createElement("li");
-    h1.textContent = data.name + " " + currentDate + " " + icon;
+    h1.textContent = data.name + " ";
     tempList.textContent = "Temp: " + temp + " ℉";
     windList.textContent = "Wind: " + wind + " MPH";
     humidityList.textContent = "Humidity: " + humidity + " %";
-    currentWeather.appendChild(h1);
+    currentWeather.appendChild(div);
+    div.appendChild(h1);
+    div.appendChild(dateHeader);
+    div.appendChild(img);
     currentWeather.appendChild(ul);
     ul.appendChild(tempList);
     ul.appendChild(windList);
@@ -69,20 +97,15 @@ function renderCurrentWeather(data) {
 }
 
 function getLocalDate(data) {
-    //gets local time, converts it into miliseconds and adds the product of seconds shifted from UTC and 1000 and converts it to UTC.
-    var localDate = new Date((new Date().getTime()) + data.timezone * 1000).toUTCString();
-    console.log(localDate);
-    var date = localDate.split(' ');
-    date.splice(-2);
-    return date;
+    var local = DateTime.local();
+    var rezoned = local.setZone(data.timezone);
+    var format = rezoned.toFormat("'('M'/'d'/'y')'");
+    dateHeader.textContent = format;
 }
+
 function getIcons(icon) {
-
     var iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
-
     return iconurl;
-
-    {/* <div id="icon"><img id="wicon" src="" alt="Weather icon"></div> */ }
 }
 function convertTemp(K) {
     return (9 / 5) * (K - 273) + 32;
@@ -97,8 +120,10 @@ function searchApi5DayForecast(currentData) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    render5DayForecast(data);
                     getUVI(data);
+                    render5DayForecast(data);
+                    getLocalDate(data);
+
 
                 })
             } else {
@@ -113,47 +138,71 @@ function searchApi5DayForecast(currentData) {
 function getUVI(data) {
     var currentUVI = data.current.uvi;
     var uviList = document.createElement("li");
-    uviList.textContent = "UV Index: " + currentUVI;
+    uviList.classList.add("UVI");
+    var uviNum = document.createElement("li");
+    uviNum.classList.add("UVI");
+    uviNum.id = "UVIndex";
+    uviList.textContent = "UV Index: ";
+    uviNum.textContent = currentUVI;
     var ul = document.querySelector(".todayList");
+    if (currentUVI <= 2) {
+        uviNum.classList.add("uvGreen");
+    }
+    else if (currentUVI <= 5) {
+        uviNum.classList.add("uvYellow");
+    }
+    else if (currentUVI <= 7) {
+        uviNum.classList.add("uvOrange");
+    }
+    else {
+        uviNumt.classList.add("uvRed");
+    }
     ul.appendChild(uviList);
-
-
-    // for (i = 0; i < 5; i++) {
-    //     var forecastUVI = data.daily[i].uvi;
-    //     var div = document.createElement("div");
-    //     fiveDayForecast.appendChild(div);
-    //     div.textContent = forecastUVI;
-
-
-    //     //append each time
-    // }
-    console.log(forecastUVI);
+    ul.appendChild(uviNum);
 }
-
-// function setLocalStorage() {
-
-// }
-
-
-
-
-
-
-
-
-// li.setAttribute("data-index", i);
-// li.classList.add("todayList")
-// var h2 = document.createElement("h2");
-// currentWeather.appendChild(h2);
-// h2.textContent = temp;
-// currentWeather.appendChild(h2);
-// h2.textContent = wind + " MPH";
-
 
 function render5DayForecast(data) {
     console.log(data);
 
+    for (i = 0; i < 5; i++) {
+        var div = document.createElement("div");
+        div.classList.add("dailyDiv");
+        fiveDayForecast.appendChild(div);
+        var dailyDiv = document.querySelectorAll(".dailyDiv");
+
+        var local = DateTime.local();
+        var rezoned = local.setZone(data.timezone);
+        var addDay = rezoned.plus({ days: i + 1 })
+        var newDate = addDay.toFormat("M'/'d'/'y");
+        var icon = getIcons(data.daily[i].weather[0].icon);
+        var temp = convertTemp(data.daily[i].temp.max).toFixed(2);
+        var wind = MStoMPH(data.daily[i].wind_speed).toFixed(2);
+        var humidity = data.daily[i].humidity;
+
+        var futureDate = document.createElement("h1");
+        futureDate.classList.add('dailyDate');
+        futureDate.textContent = newDate;
+        var img = document.createElement("img");
+        img.src = icon;
+        img.alt = "Weather Icon";
+        var ul = document.createElement("ul");
+        var tempList = document.createElement("li");
+        var windList = document.createElement("li");
+        var humidityList = document.createElement("li");
+        tempList.textContent = "Temp: " + temp + " ℉";
+        windList.textContent = "Wind: " + wind + " MPH";
+        humidityList.textContent = "Humidity: " + humidity + " %";
+
+        dailyDiv[i].appendChild(futureDate);
+        dailyDiv[i].appendChild(img);
+        dailyDiv[i].appendChild(ul);
+        ul.appendChild(tempList);
+        ul.appendChild(windList);
+        ul.appendChild(humidityList);
+    }
 }
+
+
 
 searchFormEl.addEventListener('submit', handleSearchFormSubmit);
 

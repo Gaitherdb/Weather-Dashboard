@@ -85,3 +85,53 @@ form button {
     width: 200px;
     color: white;
 }
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+.todayList li {
+    font-size: 25px;
+    margin: 30px 3px;
+}
+.dailyDate{
+    font-size:27px;
+    margin-left: 3px;
+}
+.dailyDiv li {
+    margin: 25px 3px;
+    font-size: 22px;
+}
+.currentDayHeader {
+    display: inline;
+    margin: 3px;
+    font-size: 30px;
+}
+#header {
+    display:flex;
+    align-items: center;
+}
+.uvGreen{
+	background-color: green;
+    color: white;
+}
+
+.uvYellow{
+	color: black;
+	background-color: yellow;
+}
+.uvOrange{
+    color: black;
+    background-color: orange;
+}
+
+.uvRed{
+	background-color: red;
+}
+.UVI {
+    display: inline;
+}
+#UVIndex{
+    padding:5px 10px;
+    border-radius: 5px;
+    font-size: 20px;
+}
