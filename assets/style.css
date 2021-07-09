@@ -140,6 +140,6 @@ ul {
     border-radius: 5px;
     font-size: 20px;
 }
-/* .cityBtn{
-   
-} */
+.cityBtn{
+   margin: 10px 0;
+}

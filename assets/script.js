@@ -10,6 +10,35 @@ var cities = [];
 
 renderLocalStorage();
 
+SH.addEventListener("click", function (event) {
+    var element = event.target;
+    //if you click a saved search history btn
+    if (element.matches(".cityBtn")) {
+        searchSavedCity(element.textContent);
+        console.log(element.textContent);
+    }
+})
+function searchSavedCity(city) {
+    fiveDayForecast.textContent = '';
+    searchInputVal.value = '';
+    currentWeather.textContent = '';
+    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+
+    fetch(queryURL)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    renderCurrentWeather(data);
+                })
+            } else {
+                alert('Error: ' + response.statusText)
+            }
+        })
+        .catch(function (error) {
+            alert('Unable to connect to OpenWeatherMap.com');
+        })
+
+}
 function handleSearchFormSubmit(event) {
     event.preventDefault();
     var city = searchInputVal.value.trim();
@@ -27,6 +56,7 @@ function handleSearchFormSubmit(event) {
 }
 
 function searchApiCurrentDay(city) {
+
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 
     fetch(queryURL)
@@ -35,7 +65,6 @@ function searchApiCurrentDay(city) {
                 response.json().then(function (data) {
                     addLocalStorage(data.name);
                     renderCurrentWeather(data);
-                    // localStorage.setItem("recentSearch", data.name);
                 })
             } else {
                 alert('Error: ' + response.statusText)
@@ -47,49 +76,36 @@ function searchApiCurrentDay(city) {
 
 }
 function addLocalStorage(name) {
-    var savedHistory = localStorage.getItem("searchHistory");
+    localStorage.getItem("searchHistory");
+    //adds the city to the array of saved searches
     cities.push(name);
+    //limits the saved search to 6 buttons
+    var searchHistoryCap = document.querySelectorAll(".citybtn");
+    if (searchHistoryCap.length > 5) {
+        cities.splice(0, 1);
+    }
     var searchHistory = document.createElement("button");
     searchHistory.classList.add("citybtn");
+    // searchHistory.setAttribute("data-name", name);
     searchHistory.textContent = name;
     SH.appendChild(searchHistory);
-    //trying to restrict the amount of saved searches 
-//need to figure out where this goes. maybe change cities to the local storage var?
-
-    // var searchHistoryCap = document.querySelectorAll(".citybtn");
-    // console.log(searchHistoryCap);
-    // console.log(searchHistoryCap.length);
-    // if (searchHistoryCap.length > 5) {
-    //     cities.splice(4, 1);
-    //     console.log(cities);
-    // }
+    //saves array of 6 cities to local storage
     localStorage.setItem("searchHistory", JSON.stringify(cities));
-    console.log(cities);
-    console.log(savedHistory);
-
 }
 function renderLocalStorage() {
     var savedHistory = localStorage.getItem("searchHistory");
     if (savedHistory) {
         cities = JSON.parse(savedHistory);
-        console.log(cities);
-        console.log(cities.length);
         for (i = 0; i < cities.length; i++) {
             var searchHistory = document.createElement("button");
             searchHistory.classList.add("citybtn");
+            // searchHistory.setAttribute("data-name", cities[i]);
             searchHistory.textContent = cities[i];
             SH.appendChild(searchHistory);
         }
 
     }
-    console.log(cities);
-    console.log(savedHistory);
-
 }
-// function getLocalStorage() {
-
-// }
-
 
 function renderCurrentWeather(data) {
     console.log(data);
@@ -189,7 +205,7 @@ function getUVI(data) {
         uviNum.classList.add("uvOrange");
     }
     else {
-        uviNumt.classList.add("uvRed");
+        uviNum.classList.add("uvRed");
     }
     ul.appendChild(uviList);
     ul.appendChild(uviNum);
