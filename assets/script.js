@@ -72,9 +72,9 @@ function searchApiCurrentDay(city) {
                 alert('Error: ' + response.statusText)
             }
         })
-        // .catch(function (error) {
-        //     alert('Unable to connect to OpenWeatherMap.com');
-        // })
+        .catch(function (error) {
+            alert('Unable to connect to OpenWeatherMap.com');
+        })
 
 }
 function addLocalStorage(name) {
