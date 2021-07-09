@@ -2,10 +2,13 @@ var searchFormEl = document.querySelector('#search-form');
 var searchInputVal = document.querySelector('#input-city');
 var currentWeather = document.querySelector('#currentWeather');
 var fiveDayForecast = document.querySelector('#fiveDayForecast');
+var SH = document.querySelector('#searchHistory');
 
 const APIKey = "92421b7f2bf12b73f6e7c38295c935c0";
 var DateTime = luxon.DateTime;
+var cities = [];
 
+renderLocalStorage();
 
 function handleSearchFormSubmit(event) {
     event.preventDefault();
@@ -30,9 +33,9 @@ function searchApiCurrentDay(city) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    // setLocalStorage(data.name);
+                    addLocalStorage(data.name);
                     renderCurrentWeather(data);
-                    localStorage.setItem("recentSearch", data.name);
+                    // localStorage.setItem("recentSearch", data.name);
                 })
             } else {
                 alert('Error: ' + response.statusText)
@@ -43,15 +46,46 @@ function searchApiCurrentDay(city) {
         })
 
 }
-// function setLocalStorage(name) {
-//     localStorage.getItem(searchHistory);
-//     var cities = [];
-//     // cities.push(name);
-//     cities[cities.length] = name;
-//     localStorage.setItem("searchHistory", JSON.stringify(cities));
-//     console.log(cities);
-//     console.log(name);
-// }
+function addLocalStorage(name) {
+    var savedHistory = localStorage.getItem("searchHistory");
+    cities.push(name);
+    var searchHistory = document.createElement("button");
+    searchHistory.classList.add("citybtn");
+    searchHistory.textContent = name;
+    SH.appendChild(searchHistory);
+    //trying to restrict the amount of saved searches 
+//need to figure out where this goes. maybe change cities to the local storage var?
+
+    // var searchHistoryCap = document.querySelectorAll(".citybtn");
+    // console.log(searchHistoryCap);
+    // console.log(searchHistoryCap.length);
+    // if (searchHistoryCap.length > 5) {
+    //     cities.splice(4, 1);
+    //     console.log(cities);
+    // }
+    localStorage.setItem("searchHistory", JSON.stringify(cities));
+    console.log(cities);
+    console.log(savedHistory);
+
+}
+function renderLocalStorage() {
+    var savedHistory = localStorage.getItem("searchHistory");
+    if (savedHistory) {
+        cities = JSON.parse(savedHistory);
+        console.log(cities);
+        console.log(cities.length);
+        for (i = 0; i < cities.length; i++) {
+            var searchHistory = document.createElement("button");
+            searchHistory.classList.add("citybtn");
+            searchHistory.textContent = cities[i];
+            SH.appendChild(searchHistory);
+        }
+
+    }
+    console.log(cities);
+    console.log(savedHistory);
+
+}
 // function getLocalStorage() {
 
 // }

@@ -19,14 +19,19 @@ nav p {
 }
 aside {
    float: left;
-   border-bottom: 2px solid black;
+   
     margin: 15px;
    
+}
+#searchHistory{
+    display: flex;
+    flex-direction: column;
 }
 aside form {
     display:flex;
     flex-direction: column;
     justify-content: space-between;
+    border-bottom: 2px solid black;
   
    
 }
@@ -135,3 +140,6 @@ ul {
     border-radius: 5px;
     font-size: 20px;
 }
+/* .cityBtn{
+   
+} */
