@@ -24,7 +24,7 @@ function searchSavedCity(city) {
     fiveDayForecast.textContent = '';
     searchInputVal.value = '';
     currentWeather.textContent = '';
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 
     fetch(queryURL)
         .then(function (response) {
@@ -59,7 +59,7 @@ function handleSearchFormSubmit(event) {
 //gets data for current day and calls functions to store + render info
 function searchApiCurrentDay(city) {
 
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 
     fetch(queryURL)
         .then(function (response) {
@@ -144,7 +144,7 @@ function renderCurrentWeather(data) {
     ul.appendChild(tempList);
     ul.appendChild(windList);
     ul.appendChild(humidityList);
-//send data to 5 day api function
+    //send data to 5 day api function
     searchApi5DayForecast(data);
 }
 //uses luxon to organize date
@@ -156,7 +156,7 @@ function getLocalDate(data) {
 }
 //creates a link with an edit depending on icon data
 function getIcons(icon) {
-    var iconurl = "http://openweathermap.org/img/w/" + icon + ".png";
+    var iconurl = "https://openweathermap.org/img/w/" + icon + ".png";
     return iconurl;
 }
 
