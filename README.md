@@ -17,7 +17,7 @@ This web application presents a Weather Dashboard in which a user can search for
 
 ![image](./assets/WeatherDashboard.png)
 
-Deployed [Weather Dashboard](https://github.com/Gaitherdb/Weather-Dashboard) site on Github.
+Deployed [Weather Dashboard](https://gaitherdb.github.io/Weather-Dashboard/) site on Github.
 
 All API data is provided by OpenWeatherMap.com 
 
