@@ -15,10 +15,12 @@ This web application presents a Weather Dashboard in which a user can search for
 
 ## Additional Info
 
-![image]()
+![image](./assets/WeatherDashboard.png)
 
-Deployed [Weather Dashboard](https://gaitherdb.github.io/Work-Day-Scheduler/) site on Github.
+Deployed [Weather Dashboard](https://github.com/Gaitherdb/Weather-Dashboard) site on Github.
 
 All API data is provided by OpenWeatherMap.com 
+
+This app is not fully designed for different media screen sizes
 
 **Version 1.0**
