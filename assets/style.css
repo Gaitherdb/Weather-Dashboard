@@ -49,6 +49,7 @@ form button {
     color: white;
     padding: 5px;
     margin-bottom: 15px;
+    cursor: pointer;
 }
 
 #container {
